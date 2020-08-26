@@ -7,7 +7,7 @@
 #include "DEFINITIONS.hpp"
 #include "MainMenuState.hpp"
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
     SplashState::SplashState(GameDataRef data) : _data(data)
     {
@@ -50,4 +50,4 @@ namespace TepeGolo
 
         this->_data->fenetre.display();
     }
-} // namespace TepeGolo
+}

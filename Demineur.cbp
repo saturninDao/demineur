@@ -43,13 +43,13 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
-			<Add directory="C:/Program Files/CodeBlocks/MinGW/SFML-2.5.1/include" />
+			<Add directory="C:/Users/daoma/Downloads/Compressed/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit/SFML-2.5.1/include" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="C:/Program Files/CodeBlocks/MinGW/SFML-2.5.1/include" />
+			<Add directory="C:/Users/daoma/Downloads/Compressed/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit/SFML-2.5.1/include" />
 		</ResourceCompiler>
 		<Linker>
-			<Add directory="C:/Program Files/CodeBlocks/MinGW/SFML-2.5.1/lib" />
+			<Add directory="C:/Users/daoma/Downloads/Compressed/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit/SFML-2.5.1/lib" />
 		</Linker>
 		<Unit filename="include/AssetManager.hpp" />
 		<Unit filename="include/Case.hpp" />

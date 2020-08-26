@@ -1,7 +1,7 @@
 #include "AssetManager.hpp"
 #include <SFML/Graphics.hpp>
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
     // Textures
     void AssetManager::LoadTexture(std::string nom, std::string fichier)

@@ -5,6 +5,6 @@
 using namespace std;
 
 int main() {
-    TepeGolo::Game(SCREEN_WIDTH, SCREEN_HEIGHT, "Jeu du Demineur");
+    SaturninFlorence::Game(SCREEN_WIDTH, SCREEN_HEIGHT, "Jeu du Demineur");
     return EXIT_SUCCESS;
 }

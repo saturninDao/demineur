@@ -1,6 +1,6 @@
 #include "ImputManager.hpp"
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
     bool ImputManager::IsSpriteClicked(sf::Sprite object, sf::Mouse::Button button, sf::RenderWindow &fenetre)
     {
@@ -21,4 +21,4 @@ namespace TepeGolo
         return sf::Mouse::getPosition(fenetre);
     }
 
-} // namespace TepeGolo
+}

@@ -4,7 +4,7 @@
 #include <stack>
 #include "Etat.hpp"
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
     typedef std::unique_ptr<Etat> EtatRef;
 
@@ -29,4 +29,4 @@ namespace TepeGolo
         bool _estRemplacer;
         bool _estAjouter;
     };
-} // namespace TepeGolo
+}

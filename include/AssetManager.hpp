@@ -3,7 +3,8 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
-namespace TepeGolo
+
+namespace SaturninFlorence
 {
     class AssetManager
     {
@@ -22,4 +23,4 @@ namespace TepeGolo
         std::map<std::string, sf::Texture> _textures;
         std::map<std::string, sf::Font> _fonts;
     };
-} // namespace TepeGolo
+}

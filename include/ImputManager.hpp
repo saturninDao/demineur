@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-namespace TepeGolo {
+namespace SaturninFlorence {
     class ImputManager {
     public:
         ImputManager(){};

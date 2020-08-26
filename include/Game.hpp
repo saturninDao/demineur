@@ -7,7 +7,7 @@
 #include "ImputManager.hpp"
 #include <SFML/Graphics.hpp>
 
-namespace TepeGolo {
+namespace SaturninFlorence {
     struct GameData {
         EtatMachine machine;
         sf::RenderWindow fenetre;

@@ -3,8 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include "Etat.hpp"
 #include "Game.hpp"
+#include "GameState.hpp"
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
 	class PauseState : public Etat
 	{

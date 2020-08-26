@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
 	GameOverState::GameOverState(GameDataRef data) : _data(data)
 	{

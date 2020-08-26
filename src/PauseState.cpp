@@ -8,11 +8,12 @@
 
 #include <iostream>
 
-namespace TepeGolo
-{
-	PauseState::PauseState(GameDataRef data) : _data(data)
-	{
+using namespace std;
 
+namespace SaturninFlorence
+{
+	PauseState::PauseState(GameDataRef data){
+        _data = data;
 	}
 
 	void PauseState::Init()
@@ -42,16 +43,14 @@ namespace TepeGolo
 
 			if (this->_data->imput.IsSpriteClicked(this->_resumeButton, sf::Mouse::Left, this->_data->fenetre))
 			{
-				// Peprise du jeu
+				//Retourne au jeu
+				cout << "retire etat rapidement" << endl;
 				this->_data->machine.RetireEtat();
 
 			}
 
 			if (this->_data->imput.IsSpriteClicked(this->_homeButton, sf::Mouse::Left, this->_data->fenetre))
 			{
-				// enleve la vue Pause de la memoire
-				this->_data->machine.RetireEtat();
-
 				// Vas au menu principale
 				this->_data->machine.AjoutEtat(EtatRef(new MainMenuState(_data)), true);
 

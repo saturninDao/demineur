@@ -1,6 +1,6 @@
 #include "EtatMachine.hpp"
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
     void EtatMachine::AjoutEtat(EtatRef newEtat, bool estRemplacer)
     {
@@ -49,4 +49,4 @@ namespace TepeGolo
     {
         return this->_etats.top();
     }
-} // namespace TepeGolo
+}

@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include <SFML/Graphics.hpp>
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
 
     class SplashState : public Etat

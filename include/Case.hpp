@@ -5,28 +5,29 @@
 #include "Game.hpp"
 #include <SFML/Graphics.hpp>
 
-namespace TepeGolo {
-    class Case
+namespace SaturninFlorence {
+      class Case
     {
         public:
-            Case(GameDataRef data);
-            ~Case(){};
+            Case();
 
             void afficher(sf::RenderWindow& fenetre);
-            void tourner();
-
-            void setPosition(float x, float y);
-
-        protected:
-
-        private:
-            GameDataRef _data;
+            void decouvrir();
+            void setPlace(float x, float y);
+            float getPlace();
+            void placerMine();
+            void placerCase(float x, float y);
+            void Marquer();
+            void ajoutVoisin();
             int nombreCaseMineVoisine;
+
+//        private:
+            GameDataRef _data = std::make_shared<GameData>();
             float _x;
             float _y;
-
+            bool _estMarque = false;
+            bool _estMinee = false;
+            bool _estDecouvers = false;
             sf::Sprite _face;
-            bool _estDeFace;
-
     };
 }

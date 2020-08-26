@@ -2,7 +2,7 @@
 #include "SplashState.hpp"
 #include "MainMenuState.hpp"
 
-namespace TepeGolo {
+namespace SaturninFlorence {
     Game::Game(int largeur, int hauteur, std::string titre) {
         //_data->fenetre.create(sf::VideoMode(largeur, hauteur), titre, sf::Style::Close|sf::Style::Titlebar);
         _data->fenetre.create(sf::VideoMode(largeur, hauteur), titre, sf::Style::Close | sf::Style::Titlebar);

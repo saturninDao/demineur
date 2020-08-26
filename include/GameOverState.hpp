@@ -4,7 +4,7 @@
 #include "Etat.hpp"
 #include "Game.hpp"
 
-namespace TepeGolo
+namespace SaturninFlorence
 {
 	class GameOverState : public Etat
 	{
