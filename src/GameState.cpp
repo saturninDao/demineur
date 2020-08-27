@@ -82,8 +82,8 @@ namespace SaturninFlorence
 	{
 		if (STATE_LOSE == gameState) {
 			if (this->_temps.getElapsedTime().asSeconds() > TEMPS_AVANT_GAME_OVER) {
-				//this->_data->machine.AjoutEtat(EtatRef(new GameOverState(_data)), true);
-				this->_data->machine.AjoutEtat(EtatRef(new PauseState(_data)), true);
+				this->_data->machine.AjoutEtat(EtatRef(new GameOverState(_data)), true);
+				//this->_data->machine.AjoutEtat(EtatRef(new PauseState(_data)), true);
 			}
 		}
 
@@ -301,18 +301,17 @@ namespace SaturninFlorence
 		}
 	}
 
-	void GameState::MontrerCaseAlleatoir(int x, int y) {
-		srand(time(NULL));
-		int i = 10;
-		while (i > 0) {
-			int a(rand() % y);
-			int o(rand() % x);
-			if (_cases[a][o].nombreCaseMineVoisine < 3 && !_cases[a][o]._estMinee && !_cases[a][o]._estDecouvers) {
-				_cases[a][o].decouvrir();
-			};
-			i--;
-		}
-	}
+    void GameState::MontrerCaseAlleatoir(int x, int y){
+        int i = 10;
+        while (i > 0) {
+            int a(rand() % 9);
+            int o(rand() % 9);
+            if(_cases[a][o].nombreCaseMineVoisine <= 2 && !_cases[a][o]._estMinee && !_cases[a][o]._estDecouvers){
+                _cases[a][o].decouvrir();
+            };
+            i--;
+        }
+    }
 
 	void GameState::VerifierGagner() {
 		int caseMine = 0;

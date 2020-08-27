@@ -17,9 +17,11 @@ namespace SaturninFlorence
 
 	void GameOverState::Init()
 	{
+		this->_data->assets.LoadTexture("GameOver Background", GAME_OVER_BACKGROUND);
 		this->_data->assets.LoadTexture("Retry Button", RETRY_BUTTON);
 		this->_data->assets.LoadTexture("Home Button", HOME_BUTTON);
 
+		this->_background.setTexture(this->_data->assets.GetTexture("GameOver Background"));
 		this->_retryButton.setTexture(this->_data->assets.GetTexture("Retry Button"));
 		this->_homeButton.setTexture(this->_data->assets.GetTexture("Home Button"));
 
@@ -60,7 +62,7 @@ namespace SaturninFlorence
 
 	void GameOverState::Dessiner(float dt)
 	{
-		this->_data->fenetre.clear(sf::Color::Red);
+		this->_data->fenetre.draw(this->_background);
 
 		this->_data->fenetre.draw(this->_retryButton);
 		this->_data->fenetre.draw(this->_homeButton);

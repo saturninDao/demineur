@@ -20,6 +20,7 @@ namespace SaturninFlorence
 	private:
 		GameDataRef _data;
 
+		sf::Sprite _background;
 		sf::Sprite _retryButton;
 		sf::Sprite _homeButton;
 
