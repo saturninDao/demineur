@@ -25,8 +25,8 @@ namespace SaturninFlorence
 		this->_retryButton.setTexture(this->_data->assets.GetTexture("Retry Button"));
 		this->_homeButton.setTexture(this->_data->assets.GetTexture("Home Button"));
 
-		this->_retryButton.setPosition((this->_data->fenetre.getSize().x / 2) - (this->_retryButton.getLocalBounds().width / 2), (this->_data->fenetre.getSize().y / 3) - (this->_retryButton.getLocalBounds().height / 2));
-		this->_homeButton.setPosition((this->_data->fenetre.getSize().x / 2) - (this->_homeButton.getLocalBounds().width / 2), (this->_data->fenetre.getSize().y / 3 * 2) - (this->_homeButton.getLocalBounds().height / 2));
+		this->_retryButton.setPosition((this->_data->fenetre.getSize().x / 2) - (this->_retryButton.getLocalBounds().width / 2), (this->_data->fenetre.getSize().y / 3) - (this->_retryButton.getLocalBounds().height / 3));
+		this->_homeButton.setPosition((this->_data->fenetre.getSize().x / 2) - (this->_homeButton.getLocalBounds().width / 2), (this->_data->fenetre.getSize().y / 3 * 2) - (this->_homeButton.getLocalBounds().height / 3));
 	}
 
 	void GameOverState::GererEntrer()
