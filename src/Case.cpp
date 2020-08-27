@@ -44,8 +44,12 @@ namespace SaturninFlorence{
         _y = y;
     }
 
-    float Case::getPlace(){
-        return(this->_x, this->_y);
+    float Case::getX() {
+        return this->_x;
+    }
+
+    float Case::getY() {
+        return this->_y;
     }
 
     void Case::placerMine(){
@@ -61,6 +65,7 @@ namespace SaturninFlorence{
         if(this->_estMarque == true){
             _face.setTexture(this->_data->assets.GetTexture("CaseDos"));
             _estMarque = false;
+            _estDecouvers = false;
         }
         else{
             _face.setTexture(this->_data->assets.GetTexture("CaseMarquee"));

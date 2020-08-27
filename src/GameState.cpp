@@ -36,7 +36,7 @@ namespace SaturninFlorence
         _chrono.setString("000");
 
         _drapeauRestants.setFont(this->_data->assets.GetFont("Arial"));
-        _drapeauRestants.setString("00");
+        _drapeauRestants.setString("00/10");
 
 		_background.setTexture(this->_data->assets.GetTexture("Game Background"));
 		_pauseButton.setTexture(this->_data->assets.GetTexture("Button Pause"));
@@ -49,11 +49,7 @@ namespace SaturninFlorence
 		_gridSprite.setPosition( (SCREEN_WIDTH/2)- (_gridSprite.getGlobalBounds().width/2), (SCREEN_HEIGHT/2)- (_gridSprite.getGlobalBounds().height/2) );
 
 		InitCase();
-		for(int x=0; x<9; x++){
-            for(int y=0; y<9; y++){
-                gridArray[x][y]=VIDE;
-            }
-		}
+
 	}
 
 	void GameState::GererEntrer()
@@ -84,12 +80,16 @@ namespace SaturninFlorence
 
 	void GameState::Update(float dt)
 	{
-        if(STATE_DRAW == gameState || STATE_LOSE == gameState || STATE_WON == gameState){
-			
-			_temps.restart();
+		if (STATE_LOSE == gameState) {
+			if (this->_temps.getElapsedTime().asSeconds() > TEMPS_AVANT_GAME_OVER) {
+				//this->_data->machine.AjoutEtat(EtatRef(new GameOverState(_data)), true);
+				this->_data->machine.AjoutEtat(EtatRef(new PauseState(_data)), true);
+			}
+		}
 
+		if (STATE_WON == gameState) {
             if(this->_temps.getElapsedTime().asSeconds() > TEMPS_AVANT_GAME_OVER){
-                this->_data->machine.AjoutEtat(EtatRef(new GameOverState(_data)), true);
+                this->_data->machine.AjoutEtat(EtatRef(new PauseState(_data)), true);
             }
         }
 
@@ -98,7 +98,7 @@ namespace SaturninFlorence
             _elapse = sf::seconds(0);
         }
 
-        this->_drapeauRestants.setString(to_string(this->nbMine));
+        this->_drapeauRestants.setString(to_string(this->nbMine)+"/10");
         this->_elapse = _temps.getElapsedTime();
         this->_chrono.setString(to_string(int(this->_elapse.asSeconds())));
 	}
@@ -123,219 +123,212 @@ namespace SaturninFlorence
 	}
 
 
-	void GameState::InitCase()
-	{
-		sf::Vector2u tempSpriteSize = this->_data->assets.GetTexture("Case").getSize();
-		this->GenererMine();
 
-		for (int x = 0; x < 9; x++)
-		{
-			for (int y = 0; y < 9; y++)
+
+		void GameState::InitCase() {
+			sf::Vector2u tempSpriteSize = this->_data->assets.GetTexture("Case").getSize();
+			this->GenererMine();
+
+			for (int x = 0; x < 9; x++)
 			{
-			    /*if (_cases[x][y]._estMinee){
-                    _cases[x-1][y-1].ajoutVoisin();
-                    _cases[x+1][y+1].ajoutVoisin();
-                }*/
-				_cases[x][y].placerCase(_gridSprite.getPosition().x + (tempSpriteSize.x * x) + 7, _gridSprite.getPosition().y + (tempSpriteSize.y * y) + 7);
-			}
-		}
-	}
-
-	void GameState::ClickGauche(){
-	    sf::Vector2i posClick = this->_data->imput.GetMousePosition(this->_data->fenetre);
-	    sf::FloatRect tailleGrille = _gridSprite.getGlobalBounds();
-	    sf::Vector2f espace = sf::Vector2f((SCREEN_WIDTH - tailleGrille.width)/2, (SCREEN_HEIGHT-tailleGrille.height)/2);
-	    sf::Vector2f posSurGrille = sf::Vector2f(posClick.x-espace.x, posClick.y-espace.y);
-
-	    sf::Vector2f tailleCase = sf::Vector2f(tailleGrille.width/9, tailleGrille.height/9);
-	    int colonne, ligne;
-
-        //Determinons la colonne
-	    if(posSurGrille.x < tailleCase.x){
-            colonne =1;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*2){
-            colonne =2;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*3){
-            colonne =3;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*4){
-            colonne =4;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*5){
-            colonne =5;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*6){
-            colonne =6;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*7){
-            colonne =7;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*8){
-            colonne =8;
-	    }
-	    else if(posSurGrille.x < tailleGrille.width){
-            colonne =9;
-	    }
-
-        //Determinons la ligne
-	    if(posSurGrille.y < tailleCase.y){
-            ligne =1;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*2){
-            ligne =2;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*3){
-            ligne =3;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*4){
-            ligne =4;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*5){
-            ligne =5;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*6){
-            ligne =6;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*7){
-            ligne =7;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*8){
-            ligne =8;
-	    }
-	    else if(posSurGrille.y < tailleGrille.height){
-            ligne =9;
-	    }
-        if(this->firstClick != true){
-            _cases[colonne-1][ligne-1].decouvrir();
-            _temps.restart();
-            firstClick = true;
-        }
-        else{
-            _cases[colonne-1][ligne-1].decouvrir();
-        }
-
-		if (_cases[colonne - 1][ligne - 1]._estMinee) {
-			for (int x = 0; x < 9; x++) {
-				for (int y = 0; y < 9; y++) {
-					if (_cases[x][y]._estMinee) {
-						_cases[x][y];
-					};
+				for (int y = 0; y < 9; y++)
+				{
+					_cases[x][y].placerCase(_gridSprite.getPosition().x + (tempSpriteSize.x * x) + 7, _gridSprite.getPosition().y + (tempSpriteSize.y * y) + 7);
 				}
 			}
+		}
+
+
+
+		void GameState::GetPosition() {
+			sf::Vector2i posClick = this->_data->imput.GetMousePosition(this->_data->fenetre);
+			sf::FloatRect tailleGrille = _gridSprite.getGlobalBounds();
+			sf::Vector2f espace = sf::Vector2f((SCREEN_WIDTH - tailleGrille.width) / 2, (SCREEN_HEIGHT - tailleGrille.height) / 2);
+			sf::Vector2f posSurGrille = sf::Vector2f(posClick.x - espace.x, posClick.y - espace.y);
+
+			sf::Vector2f tailleCase = sf::Vector2f(tailleGrille.width / 9, tailleGrille.height / 9);
+			int colonne, ligne;
+
+			//Determinons la colonne
+			if (posSurGrille.x < tailleCase.x) {
+				colonne = 1;
+			}
+			else if (posSurGrille.x < tailleCase.x * 2) {
+				colonne = 2;
+			}
+			else if (posSurGrille.x < tailleCase.x * 3) {
+				colonne = 3;
+			}
+			else if (posSurGrille.x < tailleCase.x * 4) {
+				colonne = 4;
+			}
+			else if (posSurGrille.x < tailleCase.x * 5) {
+				colonne = 5;
+			}
+			else if (posSurGrille.x < tailleCase.x * 6) {
+				colonne = 6;
+			}
+			else if (posSurGrille.x < tailleCase.x * 7) {
+				colonne = 7;
+			}
+			else if (posSurGrille.x < tailleCase.x * 8) {
+				colonne = 8;
+			}
+			else if (posSurGrille.x < tailleGrille.width) {
+				colonne = 9;
+			}
+
+			//Determinons la ligne
+			if (posSurGrille.y < tailleCase.y) {
+				ligne = 1;
+			}
+			else if (posSurGrille.y < tailleCase.y * 2) {
+				ligne = 2;
+			}
+			else if (posSurGrille.y < tailleCase.y * 3) {
+				ligne = 3;
+			}
+			else if (posSurGrille.y < tailleCase.y * 4) {
+				ligne = 4;
+			}
+			else if (posSurGrille.y < tailleCase.y * 5) {
+				ligne = 5;
+			}
+			else if (posSurGrille.y < tailleCase.y * 6) {
+				ligne = 6;
+			}
+			else if (posSurGrille.y < tailleCase.y * 7) {
+				ligne = 7;
+			}
+			else if (posSurGrille.y < tailleCase.y * 8) {
+				ligne = 8;
+			}
+			else if (posSurGrille.y < tailleGrille.height) {
+				ligne = 9;
+			}
+
+			this->_x = colonne - 1;
+			this->_y = ligne - 1;
+		}
+
+
+	void GameState::ClickGauche() {
+		this->GetPosition();
+		if (this->firstClick != true) {
+			_cases[this->_x][this->_y].decouvrir();
+			if (!_cases[this->_x][this->_y]._estMinee) {
+				this->MontrerCaseAlleatoir(this->_x, this->_y);
+			}
+			_temps.restart();
+			firstClick = true;
+		}
+		else {
+			_cases[this->_x][this->_y].decouvrir();
+			/*if(!_cases[this->_x][this->_y]._estMinee && _cases[this->_x][this->_y].nombreCaseMineVoisine==0){
+				this->MontrerCaseAlleatoir(this->_x, this->_y);
+			}*/
+		}
+		//
+		if (_cases[this->_x][this->_y]._estMinee) {
+			this->MontrerMines();
 			gameState = STATE_LOSE;
 		}
 	}
 
-	void GameState::ClickDroit(){
-	    sf::Vector2i posClick = this->_data->imput.GetMousePosition(this->_data->fenetre);
-	    sf::FloatRect tailleGrille = _gridSprite.getGlobalBounds();
-	    sf::Vector2f espace = sf::Vector2f((SCREEN_WIDTH - tailleGrille.width)/2, (SCREEN_HEIGHT-tailleGrille.height)/2);
-	    sf::Vector2f posSurGrille = sf::Vector2f(posClick.x-espace.x, posClick.y-espace.y);
+	void GameState::ClickDroit() {
+		this->GetPosition();
 
-	    sf::Vector2f tailleCase = sf::Vector2f(tailleGrille.width/9, tailleGrille.height/9);
-	    int colonne, ligne;
-
-        //Determinons la colonne
-	    if(posSurGrille.x < tailleCase.x){
-            colonne =1;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*2){
-            colonne =2;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*3){
-            colonne =3;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*4){
-            colonne =4;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*5){
-            colonne =5;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*6){
-            colonne =6;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*7){
-            colonne =7;
-	    }
-	    else if(posSurGrille.x < tailleCase.x*8){
-            colonne =8;
-	    }
-	    else if(posSurGrille.x < tailleGrille.width){
-            colonne =9;
-	    }
-
-        //Determinons la ligne
-	    if(posSurGrille.y < tailleCase.y){
-            ligne =1;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*2){
-            ligne =2;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*3){
-            ligne =3;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*4){
-            ligne =4;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*5){
-            ligne =5;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*6){
-            ligne =6;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*7){
-            ligne =7;
-	    }
-	    else if(posSurGrille.y < tailleCase.y*8){
-            ligne =8;
-	    }
-	    else if(posSurGrille.y < tailleGrille.height){
-            ligne =9;
-	    }
-        _cases[colonne-1][ligne-1].Marquer();
+		if (!_cases[this->_x][this->_y]._estMarque) {
+			//marquer
+			_cases[this->_x][this->_y].Marquer();
+			nbMine -= 1;
+		}
+		else if (_cases[this->_x][this->_y]._estMarque) {
+			//Demarquer
+			_cases[this->_x][this->_y].Marquer();
+			nbMine += 1;
+		}
+		this->VerifierGagner();
 	}
 
-	void GameState::GenererMine(){
-        srand(time(NULL));
-        int mineRestantAPlacer = 11;
+	void GameState::GenererMine() {
+		srand(time(NULL));
+		int mineRestantAPlacer = 11;
 
-        while (mineRestantAPlacer > 0) {
-            int x(rand() % 9);
-            int y(rand() % 9);
+		while (mineRestantAPlacer > 0) {
+			int x(rand() % 9);
+			int y(rand() % 9);
 
-            _cases[x][y].placerMine();
-            if (_cases[x][y]._estMinee){
-                mineRestantAPlacer--;
-                if (x!=0 && y!=0){
-                    _cases[x][y-1].ajoutVoisin();
-                    _cases[x][y+1].ajoutVoisin();
+			_cases[x][y].placerMine();
+			if (_cases[x][y]._estMinee) {
+				mineRestantAPlacer--;
+				if (x != 0 && y != 0) {
+					_cases[x][y - 1].ajoutVoisin();
+					_cases[x][y + 1].ajoutVoisin();
 
-                    _cases[x-1][y].ajoutVoisin();
-                    _cases[x+1][y].ajoutVoisin();
-                }
-                else if (x==0 && y==0){
-                    _cases[x][y-1].ajoutVoisin();
-                    _cases[x+1][y].ajoutVoisin();
+					_cases[x - 1][y].ajoutVoisin();
+					_cases[x + 1][y].ajoutVoisin();
+				}
+				else if (x == 0 && y == 0) {
+					_cases[x][y - 1].ajoutVoisin();
+					_cases[x + 1][y].ajoutVoisin();
 
-                    _cases[x-1][y].ajoutVoisin();
-                    _cases[x+1][y].ajoutVoisin();
-                }
-                else if (x==0 && y!=0){
-                    _cases[x][y-1].ajoutVoisin();
-                    _cases[x][y+1].ajoutVoisin();
-                    _cases[x+1][y].ajoutVoisin();
-                }
-                else if (x!=0 && y==0){
-                    _cases[x][y].ajoutVoisin();
-                    _cases[x-1][y+1].ajoutVoisin();
-                    _cases[x+1][y].ajoutVoisin();
-                }
-
-            }
-
-        }
+					_cases[x - 1][y].ajoutVoisin();
+					_cases[x + 1][y].ajoutVoisin();
+				}
+				else if (x == 0 && y != 0) {
+					_cases[x][y - 1].ajoutVoisin();
+					_cases[x][y + 1].ajoutVoisin();
+					_cases[x + 1][y].ajoutVoisin();
+				}
+				else if (x != 0 && y == 0) {
+					_cases[x][y].ajoutVoisin();
+					_cases[x - 1][y + 1].ajoutVoisin();
+					_cases[x + 1][y].ajoutVoisin();
+				}
+			}
+		}
 	}
+
+
+	void GameState::MontrerMines() {
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 9; y++) {
+				if (_cases[x][y]._estMinee) {
+					_cases[x][y].decouvrir();
+				};
+			}
+		}
+	}
+
+	void GameState::MontrerCaseAlleatoir(int x, int y) {
+		srand(time(NULL));
+		int i = 10;
+		while (i > 0) {
+			int a(rand() % y);
+			int o(rand() % x);
+			if (_cases[a][o].nombreCaseMineVoisine < 3 && !_cases[a][o]._estMinee && !_cases[a][o]._estDecouvers) {
+				_cases[a][o].decouvrir();
+			};
+			i--;
+		}
+	}
+
+	void GameState::VerifierGagner() {
+		int caseMine = 0;
+		if (nbMine == 0) {
+			for (int x = 0; x < 9; x++) {
+				for (int y = 0; y < 9; y++) {
+					if (_cases[x][y]._estMinee && _cases[x][y]._estMarque) {
+						caseMine++;
+					};
+				}
+			}
+		}
+		if (caseMine == 10) {
+			gameState = STATE_WON;
+		}
+	}
+
 
 }
