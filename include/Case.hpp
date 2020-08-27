@@ -14,6 +14,8 @@ namespace SaturninFlorence {
             void afficher(sf::RenderWindow& fenetre);
             void decouvrir();
             void setPlace(float x, float y);
+            float getX();
+            float getY();
             float getPlace();
             void placerMine();
             void placerCase(float x, float y);
